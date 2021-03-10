@@ -5,6 +5,12 @@ const Constraint = Matter.Constraint;
 
 var engine, world;
 
+var polygon, polygonImg;
+
+function preload(){
+    polygonImg = loadImage("polygon.png");
+}
+
 function setup(){
     createCanvas(800,400);
 
@@ -99,10 +105,13 @@ function setup(){
     box39 = new GreenBox(570,45,20,30);
     box39.shapeColor = ("green")
 
-    ball = new Ball(0,0,50);
-    ball.shapeColor = "red";
+//     ball = new Ball(0,0,50);
+//     ball.shapeColor = "red";
+	
+    ball = Bodies.circle(0, 0, 20);
+    World.add(world, ball);
 
-    spring = new SlingShot(ball.body, {x:200, y:200});
+   spring = new SlingShot(this.ball, {x:100, y:200});
 
     ground = new Ground(400,390,800,20);
     ground.shapeColor = "red";
@@ -165,7 +174,9 @@ function draw(){
     box38.display();
     box39.display();
 
-    ball.display();
+    ///ball.display();
+    imageMode(CENTER);
+    image(polygonImg, ball.position.x, ball.position.y, 40, 40);
     spring.display();
 
     ground.display();
@@ -175,7 +186,7 @@ function draw(){
 }
 
 function mouseDragged(){
-    Matter.Body.setPosition(ball.body, {x:mouseX, y:mouseY});
+    Matter.Body.setPosition(this.ball, {x:mouseX, y:mouseY});
 }
 
 function mouseReleased(){
@@ -184,8 +195,8 @@ function mouseReleased(){
 
 function keyPressed(){
 	if(keyCode === 32){
-		Matter.Body.setPosition(ball.body, {x:150, y:100});
-		spring.Launch(ball.body);
+		Matter.Body.setPosition(this.ball, {x:150, y:100});
+		spring.Launch(this.ball);
 	}
 }
 
